@@ -1,3 +1,11 @@
+# Smartpro
+
+deneme.pro*
+main.cpp
+mainwindow.cpp
+mainwindow.h
+mainwindows.ui.autosave
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
