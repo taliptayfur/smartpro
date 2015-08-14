@@ -1,0 +1,1 @@
+exec gst-launch-1.0 -v tcpclientsrc host=30.10.23.13 port=1234 ! h264parse ! omxh264dec ! autovideosink sync=false
