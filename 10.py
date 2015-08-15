@@ -14,7 +14,7 @@ def get_ip_address(ifname): # http://code.activestate.com/recipes/439094-get-the
 		s.fileno(),
 		0x8915, # SIOCGIFADDR
 		struct.pack('256s', ifname[:15])
-	)[20:24])
+		)[20:24])
 
 	return ip
 

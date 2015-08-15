@@ -10,6 +10,7 @@ urls = (
     '/smartpro123', 'index',
     '/upload3434', 'upload',
     '/control3434', 'control'
+    '/whatismyip3534' 'myip'
 )
 
 templatePath = "/home/pi/Desktop/server/templates/"
@@ -110,6 +111,9 @@ class upload:
             raise web.seeother('/upload3434?upload=' + ''.join(successList)) # ''.join ile stringe donusturuyor
         else:
             raise web.seeother('/upload3434?upload=Basarisiz')
+
+class myip:
+    def GET(self):
 
 def main():
     app.run()
