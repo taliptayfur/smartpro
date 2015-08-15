@@ -17,7 +17,7 @@ else
 	exec ffmpeg -f x11grab \
 		 -s $RESOLUTION \
 		 -framerate $FPS \
-		 -i :0.0+SCREEN_POS \
+		 -i :0.0+$SCREEN_POS \
 		 -vcodec libx264 \
 		 -preset ultrafast \
 		 -tune zerolatency \
