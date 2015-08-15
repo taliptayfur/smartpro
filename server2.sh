@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ "$#" -lt "6" ]; then
-	echo "usage -> ./script.sh 'FPS' 'RESOLUTION' 'BITRATE' 'MAX_BITRATE' 'SLICE_MAX_SIZE' 'HOST:PORT' "
+if [ "$#" -lt "7" ]; then
+	echo "usage -> ./script.sh 'FPS' 'RESOLUTION' 'BITRATE' 'MAX_BITRATE' 'SLICE_MAX_SIZE' 'HOST:PORT' 'SCREEN_POS'"
 
 else
 	FPS=$1
@@ -12,11 +12,12 @@ else
 	SLICE_MAX_SIZE=$5
 	KEYINT=$FPS
 	HOST=$6
+	SCREEN_POS=$7 # screen pos virgul ile ayrilmali
 
 	exec ffmpeg -f x11grab \
 		 -s $RESOLUTION \
 		 -framerate $FPS \
-		 -i :0.0+1366,0 \
+		 -i :0.0+SCREEN_POS \
 		 -vcodec libx264 \
 		 -preset ultrafast \
 		 -tune zerolatency \

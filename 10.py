@@ -18,9 +18,11 @@ def get_ip_address(ifname): # http://code.activestate.com/recipes/439094-get-the
 
 	return ip
 
-def what_is_my_ip():
-	values = {'comm': lauchAndPort}
-	r = requests.get("http://30.10.23.18:8080/control3434", params= values)
+def what_is_my_ip(server_ip, server_port):
+	#values = {'comm': lauchAndPort}
+	#r = requests.get("http://30.10.23.18:8080/control3434", params= values)
+	r = requests.get("http://" + server_ip + ":" + server_port)
+	return str(r.content)
 
 class TestApp(QtGui.QMainWindow):
     def __init__(self):
@@ -29,7 +31,7 @@ class TestApp(QtGui.QMainWindow):
         self.ui = uic.loadUi('mainwindow.ui')
         self.ui.show()
 
-        self.ui.ipSetting.setText()
+        self.ui.ipSetting.setText( what_is_my_ip("localhost", "8080") ) # get ip from web server runs on raspberry pi
 
         self.connect(self.ui.advancedButton, QtCore.SIGNAL("clicked()"), changeStackedWidget)
         self.connect(self.ui.start_button, QtCore.SIGNAL("clicked()"), start_stream)
@@ -48,6 +50,7 @@ def start_stream():
 	_BITRATE = win.ui.bitrate_edit.text()
 	_MAX_BITRATE = win.ui.max_bitrate_edit.text()
 	_SLICE_MAX_SIZE = win.ui.slice_max_size_edit.text()
+	_SCREEN_POS = win.ui.screen_pos.text()
 
 	# process calistir
 
@@ -59,6 +62,7 @@ def start_stream():
 	commandList.append(_MAX_BITRATE)
 	commandList.append(_SLICE_MAX_SIZE)
 	commandList.append(_IP + ':' + _PORT)
+	commandList.append(_SCREEN_POS)
 
 	if pop == None:
 		pop = subprocess.Popen(commandList)

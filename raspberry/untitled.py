@@ -8,7 +8,7 @@ urls = ('/', 'index')
 app = web.application(urls, globals())
 
 class index:
-	def get(self):
+	def GET(self):
 		return web.ctx.ip
 
 def main():
