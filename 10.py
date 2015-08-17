@@ -9,6 +9,7 @@ from PyQt4 import QtGui, QtCore, uic
 
 raspberry_ip = "30.10.23.18"
 raspberry_port = "8080"
+raspberry_ip_page = "whatismyip3534"
 
 def get_ip_address(ifname): # http://code.activestate.com/recipes/439094-get-the-ip-address-associated-with-a-network-inter/
 	s= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -21,10 +22,10 @@ def get_ip_address(ifname): # http://code.activestate.com/recipes/439094-get-the
 
 	return ip
 
-def what_is_my_ip(server_ip, server_port):
+def what_is_my_ip(server_ip, server_port, server_page):
 	#values = {'comm': lauchAndPort}
 	#r = requests.get("http://30.10.23.18:8080/control3434", params= values)
-	r = requests.get("http://" + server_ip + ":" + server_port)
+	r = requests.get("http://" + server_ip + ":" + server_port + "/" + server_page)
 	return str(r.content)
 
 class TestApp(QtGui.QMainWindow):
@@ -34,7 +35,7 @@ class TestApp(QtGui.QMainWindow):
         self.ui = uic.loadUi('mainwindow.ui')
         self.ui.show()
 
-        self.ui.ipSetting.setText( what_is_my_ip(raspberry_ip, raspberry_port) ) # get ip from web server runs on raspberry pi
+        self.ui.ipSetting.setText( what_is_my_ip(raspberry_ip, raspberry_port, raspberry_ip_page) ) # get ip from web server runs on raspberry pi
 
         self.connect(self.ui.advancedButton, QtCore.SIGNAL("clicked()"), changeStackedWidget)
         self.connect(self.ui.start_button, QtCore.SIGNAL("clicked()"), start_stream)
