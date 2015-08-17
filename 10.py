@@ -4,7 +4,6 @@
 import sys, os, requests
 import subprocess
 import socket, fcntl, struct
-
 from PyQt4 import QtGui, QtCore, uic
 
 raspberry_ip = "30.10.23.18"
@@ -49,7 +48,6 @@ def inflateScreenPos():
 	screen_window = ScreenPosWindow()
 
 class ScreenPosWindow(QtGui.QMainWindow):
-
 	# x=None; y=None; width=None; height = None
 
 	def __init__(self):
@@ -65,8 +63,6 @@ class ScreenPosWindow(QtGui.QMainWindow):
 		self.setGeometry(self.x, self.y, self.width, self.height) # X, Y, Width, Height
 
 		self.show()
-
-		print type(self)
 
 	def _setAttributes(self):
 		self.x = int(win.ui.screen_pos.text().split(',')[0])
@@ -107,22 +103,23 @@ def start_stream():
 		lauchAndPort = "opengstlaunch-start " + str(_PORT)
 		values = {'comm': lauchAndPort}
 		r = requests.get("http://" + raspberry_control_page, params= values)
+		win.ui.start_button.setText("Durdur")
 	else:
 		pop.terminate()
 		pop = None
 		values = {'comm': "opengstlaunch-stop"}
 		r = requests.get("http://" + raspberry_control_page, params= values)
-
+		win.ui.start_button.setText("Başlat")
 
 	# print _IP, _PORT, _MBIT, _RESOLUTION, _FPS, _BITRATE, _MAX_BITRATE
 
 def changeStackedWidget():
 	win.ui.stackedWidget.setCurrentIndex( (win.ui.stackedWidget.currentIndex() + 1) % 2)
 
+
 if __name__ == "__main__":
 	try:
 		app = QtGui.QApplication(sys.argv)
-
 		win = TestApp()
 		sys.exit(app.exec_())
 	finally:
