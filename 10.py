@@ -10,6 +10,7 @@ from PyQt4 import QtGui, QtCore, uic
 raspberry_ip = "30.10.23.18"
 raspberry_port = "8080"
 raspberry_ip_page = "whatismyip3534"
+raspberry_control_page = raspberry_ip + ":" + raspberry_port + "/" + "control3434"
 
 def get_ip_address(ifname): # http://code.activestate.com/recipes/439094-get-the-ip-address-associated-with-a-network-inter/
 	s= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -72,12 +73,12 @@ def start_stream():
 		pop = subprocess.Popen(commandList)
 		lauchAndPort = "opengstlaunch-start " + str(_PORT)
 		values = {'comm': lauchAndPort}
-		#r = requests.get("http://30.10.23.18:8080/control3434", params= values)
+		r = requests.get("http://" + raspberry_control_page, params= values)
 	else:
 		pop.terminate()
 		pop = None
 		values = {'comm': "opengstlaunch-stop"}
-		#r = requests.get("http://30.10.23.18:8080/control3434", params= values)
+		r = requests.get("http://" + raspberry_control_page, params= values)
 
 
 	# print _IP, _PORT, _MBIT, _RESOLUTION, _FPS, _BITRATE, _MAX_BITRATE
