@@ -21,7 +21,6 @@ trans = None
 FNULL = open(os.devnull, 'w')
 
 while loop:
-    
     trans = open(pipePath).read()
     log("trans : " + trans)
     
@@ -36,9 +35,7 @@ while loop:
             pop = None
             log("Program Kapatildi")
     elif trans.find("opengstlaunch-start", 0) != -1 :
-        
         log(trans.split(' '))
-        
 
         senderIp = trans.split(' ')[2]
         senderPort = trans.split(' ')[1]

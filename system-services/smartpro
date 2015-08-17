@@ -21,7 +21,6 @@ start() {
   fi
   echo 'Starting service…' >&2
 
-
   touch $LOGFILE
   chown $RUNAS:$RUNAS $LOGFILE
 

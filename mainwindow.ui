@@ -250,13 +250,6 @@
            </item>
           </widget>
          </item>
-         <item row="12" column="1">
-          <widget class="QPushButton" name="start_button">
-           <property name="text">
-            <string>Başlat</string>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="0">
           <spacer name="verticalSpacer_2">
            <property name="orientation">
@@ -281,6 +274,20 @@
           <widget class="QLineEdit" name="screen_pos">
            <property name="text">
             <string>0,0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <widget class="QPushButton" name="start_button">
+           <property name="text">
+            <string>Başlat</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="1">
+          <widget class="QPushButton" name="pos_set_button">
+           <property name="text">
+            <string>Konum Ayarla</string>
            </property>
           </widget>
          </item>
