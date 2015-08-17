@@ -10,7 +10,7 @@ urls = (
     '/smartpro123', 'index',
     '/upload3434', 'upload',
     '/control3434', 'control',
-    '/whatismyip3534' 'myip'
+    '/whatismyip3534', 'myip'
 )
 
 templatePath = "/home/pi/smartpro-git-repo/raspberry/templates/"
