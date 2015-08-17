@@ -9,11 +9,11 @@ def log(s):
 urls = (
     '/smartpro123', 'index',
     '/upload3434', 'upload',
-    '/control3434', 'control'
+    '/control3434', 'control',
     '/whatismyip3534' 'myip'
 )
 
-templatePath = "/home/pi/Desktop/server/templates/"
+templatePath = "/home/pi/smartpro-git-repo/raspberry/templates/"
 path = "/home/pi/files/"
 pipePath = "/home/pi/dosya"
 
@@ -114,6 +114,10 @@ class upload:
 
 class myip:
     def GET(self):
+        return render.myip()
+
+    def POST(self):
+        pass
 
 def main():
     app.run()

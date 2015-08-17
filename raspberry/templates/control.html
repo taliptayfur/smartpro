@@ -1,0 +1,60 @@
+$def with(function)
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<form action="" method="get">
+$:function['createInputForm']
+<input type="radio" name="comm" value="kill"> Kill Program
+<br>
+<input type="submit" value="Submit">
+</form>
+
+<br><br>
+<form action="" method="get">
+$:function['createKeyForm']
+<input type="radio" name="comm" checked="checked" value="xdotool key space"> Space
+<input type="submit" value="Space">
+</form>
+
+<form action="" method="get">
+<input type="radio" name="comm" checked="checked" value="xdotool key Left"> Left
+<input type="submit" value="Left">
+</form>
+</form>
+
+<form action="" method="get">
+<input type="radio" name="comm" checked="checked" value="xdotool key Right"> Right
+<input type="submit" value="Right">
+</form>
+
+<form action="" method="get">
+<input type="radio" name="comm" checked="checked" value="xdotool key Up"> Up
+<input type="submit" value="Up">
+</form>
+
+<form action="" method="get">
+<input type="radio" name="comm" checked="checked" value="xdotool key Down"> Down
+<input type="submit" value="Down">
+</form>
+
+<form action="" method="get">
+<input type="radio" name="comm" checked="checked" value="xdotool key Ctrl+Up"> Volume Up
+<input type="submit" value="Volume Up">
+</form>
+
+<form action="" method="get">
+<input type="radio" name="comm" checked="checked" value="xdotool key Ctrl+Down Ctrl+Down"> Volume Down
+<input type="submit" value="Volume Down">
+</form>
+
+<form action="" method="get">
+<input type="radio" name="comm" checked="checked" value="xdotool key d"> D
+<input type="submit" value="D">
+</form>
+
+</body>
+</html>
