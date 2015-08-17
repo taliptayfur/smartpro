@@ -114,7 +114,7 @@ class upload:
 
 class myip:
     def GET(self):
-        return render.myip()
+        return web.ctx.ip
 
     def POST(self):
         pass

@@ -7,6 +7,9 @@ import socket, fcntl, struct
 
 from PyQt4 import QtGui, QtCore, uic
 
+raspberry_ip = "30.10.23.18"
+raspberry_port = "8080"
+
 def get_ip_address(ifname): # http://code.activestate.com/recipes/439094-get-the-ip-address-associated-with-a-network-inter/
 	s= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -31,7 +34,7 @@ class TestApp(QtGui.QMainWindow):
         self.ui = uic.loadUi('mainwindow.ui')
         self.ui.show()
 
-        self.ui.ipSetting.setText( what_is_my_ip("localhost", "8080") ) # get ip from web server runs on raspberry pi
+        self.ui.ipSetting.setText( what_is_my_ip(raspberry_ip, raspberry_port) ) # get ip from web server runs on raspberry pi
 
         self.connect(self.ui.advancedButton, QtCore.SIGNAL("clicked()"), changeStackedWidget)
         self.connect(self.ui.start_button, QtCore.SIGNAL("clicked()"), start_stream)
@@ -67,14 +70,13 @@ def start_stream():
 	if pop == None:
 		pop = subprocess.Popen(commandList)
 		lauchAndPort = "opengstlaunch-start " + str(_PORT)
-		print lauchAndPort
 		values = {'comm': lauchAndPort}
-		r = requests.get("http://30.10.23.18:8080/control3434", params= values)
+		#r = requests.get("http://30.10.23.18:8080/control3434", params= values)
 	else:
 		pop.terminate()
 		pop = None
 		values = {'comm': "opengstlaunch-stop"}
-		r = requests.get("http://30.10.23.18:8080/control3434", params= values)
+		#r = requests.get("http://30.10.23.18:8080/control3434", params= values)
 
 
 	# print _IP, _PORT, _MBIT, _RESOLUTION, _FPS, _BITRATE, _MAX_BITRATE
