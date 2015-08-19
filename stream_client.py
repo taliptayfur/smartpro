@@ -33,6 +33,7 @@ commandList = []
 class TestApp(QtGui.QMainWindow):
 	def __init__(self):
 		QtGui.QMainWindow.__init__(self)
+		self.screen_window = None
 
 		self.ui = uic.loadUi('mainwindow.ui')
 		self.ui.show()
@@ -42,10 +43,10 @@ class TestApp(QtGui.QMainWindow):
 		self.connect(self.ui.advancedButton, QtCore.SIGNAL("clicked()"), changeStackedWidget)
 		self.connect(self.ui.start_button, QtCore.SIGNAL("clicked()"), start_stream)
 
-		self.connect(self.ui.pos_set_button, QtCore.SIGNAL("clicked()"), inflateScreenPos)
+		self.connect(self.ui.pos_set_button, QtCore.SIGNAL("clicked()"), self.inflateScreenPos)
 
-def inflateScreenPos():
-	screen_window = ScreenPosWindow()
+	def inflateScreenPos(self):
+		self.screen_window = ScreenPosWindow()
 
 class ScreenPosWindow(QtGui.QMainWindow):
 	# x=None; y=None; width=None; height = None
@@ -59,8 +60,9 @@ class ScreenPosWindow(QtGui.QMainWindow):
 		#self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
 		#self.ui.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
 		
-		#self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
+		self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
 		self.setGeometry(self.x, self.y, self.width, self.height) # X, Y, Width, Height
+		print "deneme"
 
 		self.show()
 
@@ -89,7 +91,7 @@ def start_stream():
 	# process calistir
 
 	commandList = []
-	commandList.append("./server2.sh")
+	commandList.append("./server_libav.sh")
 	commandList.append(_FPS)
 	commandList.append(_RESOLUTION)
 	commandList.append(_BITRATE)
