@@ -27,7 +27,6 @@ def what_is_my_ip(server_ip, server_port, server_page):
 	r = requests.get("http://" + server_ip + ":" + server_port + "/" + server_page)
 	return str(r.content)
 
-
 win = None
 commandList = []
 
@@ -120,15 +119,17 @@ class ScreenPosWindow(QtGui.QWidget):
 		qp.end()
 	
 	def drawLines(self, qp):
-		pen = QtGui.QPen(QtCore.Qt.blue, 5, QtCore.Qt.SolidLine)
+		pen = QtGui.QPen(QtCore.Qt.blue, 0, QtCore.Qt.SolidLine)
 		qp.setPen(pen)
+
+		qp.setBrush(QtGui.QColor(0, 0, 0, 160))
+		qp.drawRect(0,0, 1920, 1080)
+
+		qp.setCompositionMode (QtGui.QPainter.CompositionMode_Source);
+		qp.setBrush(QtGui.QColor(0, 255, 0, 0))
 		qp.drawRect(self.x, self.y, self.width, self.height)
-
-		#qp.drawLine(self.x, self.y, self.x + self.width, self.y) # yatay ust cizgi
-		#qp.drawLine(self.x, self.y, self.x, self.y + self.height) # dikey sol cizgi
-		#qp.drawLine(self.x, self.y + self.height, self.x + self.width, self.y + self.height) # yatay alt cizgi
-		#qp.drawLine(self.x + self.width, self.y, self.x + self.width, self.y + self.height) # dikey sag cizgi
-
+		qp.setCompositionMode(QtGui.QPainter.CompositionMode_SourceOver);
+		
 	def keyPressEvent(self, e):
 		if e.key() == QtCore.Qt.Key_Escape:
 			self.close()
@@ -147,7 +148,6 @@ class ScreenPosWindow(QtGui.QWidget):
 
 	def closeEvent(self, event):
 		pass
-
 
 ################################### stream ##########################################################
 
@@ -183,8 +183,6 @@ def start_stream(_IP, _PORT, _MBIT, _RESOLUTION, _FPS, _BITRATE, _MAX_BITRATE, _
 		
 
 	# print _IP, _PORT, _MBIT, _RESOLUTION, _FPS, _BITRATE, _MAX_BITRATE
-
-
 
 if __name__ == "__main__":
 	try:

@@ -1,6 +1,11 @@
 # Smartpro
 
 deneme.pro*
+deneme.creator
+deneme.creator.user
+deneme.files
+deneme.includes
+deneme.config
 main.cpp
 mainwindow.cpp
 mainwindow.h
