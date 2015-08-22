@@ -37,11 +37,11 @@ class TestApp(QtGui.QMainWindow, uiMainWindow):
 		QtGui.QMainWindow.__init__(self)
 		self.screen_window = None
 		self.setupUi(self)
-		
+
 		#self.ui.setStyleSheet("*{background-color:rgba(0,0,0,10)}")
 		#self.ui.actionExit.triggered.connect(self.close)
 
-		self.ipSetting.setText( what_is_my_ip(raspberry_ip, raspberry_port, raspberry_ip_page) ) # get ip from web server runs on raspberry pi
+		# self.ipSetting.setText( what_is_my_ip(raspberry_ip, raspberry_port, raspberry_ip_page) ) # get ip from web server runs on raspberry pi
 
 		#self.connect(self.ui.advancedButton, QtCore.SIGNAL("clicked()"), changeStackedWidget)
 		#self.connect(self.ui.start_button, QtCore.SIGNAL("clicked()"), start_stream)
@@ -56,15 +56,14 @@ class TestApp(QtGui.QMainWindow, uiMainWindow):
 			width, height = (int(i) for i in self.resolutionSetting.currentText().split('x'))
 		except:
 			width, height = 640, 480
-
 		try:
 			x, y = (int(i) for i in self.screen_pos.text().split(','))
 		except:
-			x, y = 100, 100
+			x, y = 0, 0
 
 		if self.screen_window != None:
 			self.screen_window.close()
-		self.screen_window = ScreenPosWindow(x, y, width, height)
+		self.screen_window = ScreenPosWindow(x, y, width, height, self.setPosition)
 
 	@QtCore.pyqtSlot()
 	def on_start_button_clicked(self):
@@ -87,6 +86,8 @@ class TestApp(QtGui.QMainWindow, uiMainWindow):
 	def on_advancedButton_clicked(self):
 		self.stackedWidget.setCurrentIndex( (self.stackedWidget.currentIndex() + 1) % 2)
 
+	def setPosition(self, x, y):
+		self.screen_pos.setText("%s,%s" % (x, y))
 
 	def closeEvent(self, event):
 		print "TestApp.closeEvent"
@@ -98,12 +99,12 @@ class TestApp(QtGui.QMainWindow, uiMainWindow):
 
 class ScreenPosWindow(QtGui.QWidget):
 	
-	
-	def __init__(self, x, y, width, height):
+	def __init__(self, x, y, width, height, f_setPosition):
 		QtGui.QWidget.__init__(self)
-		self.x, self.y = x, y;
+		self.x, self.y = x, y
 
 		self.width, self.height = width, height
+		self.f_setPosition = f_setPosition
 
 		#http://stackoverflow.com/questions/19944636/pyqt-transparent-background-qglwidget
 		#self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
@@ -111,25 +112,32 @@ class ScreenPosWindow(QtGui.QWidget):
 		
 		self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
 		self.showFullScreen()
-	
+
 	def paintEvent(self, e): # http://www.zetcode.com/gui/pyqt4/drawing/  -- QTGui.QPen
 		qp = QtGui.QPainter()
 		qp.begin(self)
 		self.drawLines(qp)
 		qp.end()
-	
+
 	def drawLines(self, qp):
 		pen = QtGui.QPen(QtCore.Qt.blue, 0, QtCore.Qt.SolidLine)
 		qp.setPen(pen)
 
 		qp.setBrush(QtGui.QColor(0, 0, 0, 160))
-		qp.drawRect(0,0, 1920, 1080)
+		qp.drawRect(0,0, 1366, 768)
 
-		qp.setCompositionMode (QtGui.QPainter.CompositionMode_Source);
+		qp.setCompositionMode (QtGui.QPainter.CompositionMode_Source)
 		qp.setBrush(QtGui.QColor(0, 255, 0, 0))
 		qp.drawRect(self.x, self.y, self.width, self.height)
-		qp.setCompositionMode(QtGui.QPainter.CompositionMode_SourceOver);
-		
+		qp.setCompositionMode(QtGui.QPainter.CompositionMode_SourceOver)
+	
+	def mouseMoveEvent(self, event):
+		if event.buttons() == QtCore.Qt.LeftButton:
+			self.x = event.pos().x()
+			self.y = event.pos().y()
+
+		self.update()
+
 	def keyPressEvent(self, e):
 		if e.key() == QtCore.Qt.Key_Escape:
 			self.close()
@@ -145,9 +153,10 @@ class ScreenPosWindow(QtGui.QWidget):
 		elif e.key() == QtCore.Qt.Key_Down:
 			self.y += 5;
 			self.update()
+		self.f_setPosition(self.x, self.y)
 
 	def closeEvent(self, event):
-		pass
+		print "ScreenPosWindow.closeEvent"
 
 ################################### stream ##########################################################
 
