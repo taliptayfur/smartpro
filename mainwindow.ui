@@ -193,7 +193,7 @@
          <item row="2" column="1">
           <widget class="QComboBox" name="resolutionSetting">
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <item>
             <property name="text">
@@ -276,24 +276,27 @@
            </property>
           </widget>
          </item>
-         <item row="9" column="1">
-          <widget class="QLineEdit" name="screen_pos">
-           <property name="text">
-            <string>0,0</string>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="1">
+         <item row="12" column="1">
           <widget class="QPushButton" name="start_button">
            <property name="text">
             <string>Başlat</string>
            </property>
           </widget>
          </item>
-         <item row="10" column="1">
+         <item row="11" column="1">
           <widget class="QPushButton" name="pos_set_button">
            <property name="text">
             <string>Konum Ayarla</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QLabel" name="screen_pos">
+           <property name="text">
+            <string>0,0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>

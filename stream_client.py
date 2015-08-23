@@ -76,7 +76,8 @@ class TestApp(QtGui.QMainWindow, uiMainWindow):
 		_MAX_BITRATE = win.max_bitrate_edit.text()
 		_SLICE_MAX_SIZE = win.slice_max_size_edit.text()
 		_SCREEN_POS = win.screen_pos.text()
-		start_stream(_IP, _PORT, _MBIT, _RESOLUTION, _FPS, _BITRATE, _MAX_BITRATE, _SLICE_MAX_SIZE, _SCREEN_POS)
+		start_stream(_IP, _PORT, _MBIT, _RESOLUTION, _FPS, _BITRATE,
+					 _MAX_BITRATE, _SLICE_MAX_SIZE, _SCREEN_POS)
 		if stream_info() == True:
 			self.start_button.setText("Durdur")
 		else:
@@ -84,7 +85,15 @@ class TestApp(QtGui.QMainWindow, uiMainWindow):
 
 	@QtCore.pyqtSlot()
 	def on_advancedButton_clicked(self):
-		self.stackedWidget.setCurrentIndex( (self.stackedWidget.currentIndex() + 1) % 2)
+		self.stackedWidget.setCurrentIndex( (self.stackedWidget.currentIndex() + 1) % 2) # sayfalar arası geçiş
+
+	@QtCore.pyqtSlot(int)
+	def on_mbitCombo_activated(self, index):
+		self.setMegabitSetting(self.mbitCombo.currentText())
+
+	def setMegabitSetting(self, mbit):
+		self.bitrate_edit.setText(str(mbit + "000"))
+		self.max_bitrate_edit.setText( str(int(int(mbit + "000") * (1.75))) )
 
 	def setPosition(self, x, y):
 		self.screen_pos.setText("%s,%s" % (x, y))
@@ -124,35 +133,55 @@ class ScreenPosWindow(QtGui.QWidget):
 		qp.setPen(pen)
 
 		qp.setBrush(QtGui.QColor(0, 0, 0, 160))
-		qp.drawRect(0,0, 1366, 768)
+		qp.drawRect(0,0, self.geometry().width(), self.geometry().height())
 
 		qp.setCompositionMode (QtGui.QPainter.CompositionMode_Source)
 		qp.setBrush(QtGui.QColor(0, 255, 0, 0))
 		qp.drawRect(self.x, self.y, self.width, self.height)
 		qp.setCompositionMode(QtGui.QPainter.CompositionMode_SourceOver)
-	
+
+	def mousePressEvent(self, event):
+		if event.buttons() == QtCore.Qt.LeftButton: # fare sol tusa ilk tiklandiginda farenin koordinatlari aliniyor
+			self.x1 = event.pos().x()
+			self.y1 = event.pos().y()
+
 	def mouseMoveEvent(self, event):
 		if event.buttons() == QtCore.Qt.LeftButton:
-			self.x = event.pos().x()
-			self.y = event.pos().y()
+			self.tmp = self.x
+			self.tmp -= self.x1 - event.pos().x()
 
+			if self.tmp >= 0 and self.tmp + self.width <= self.geometry().width(): # eger fark eklenince sınırları geçmiyorsa yap
+				self.x -= self.x1 - event.pos().x()
+
+			self.tmp = self.y
+			self.tmp -= self.y1 - event.pos().y()
+			
+			if self.tmp >= 0 and self.tmp + self.height <= self.geometry().height():
+				self.y -= self.y1 - event.pos().y()
+
+			self.x1 = event.pos().x()
+			self.y1 = event.pos().y()
+
+		self.f_setPosition(self.x, self.y)
 		self.update()
 
 	def keyPressEvent(self, e):
 		if e.key() == QtCore.Qt.Key_Escape:
 			self.close()
 		elif e.key() == QtCore.Qt.Key_Left:
-			self.x -= 5;
-			self.update()
+			if self.x - 5 >= 0:
+				self.x -= 5
 		elif e.key() == QtCore.Qt.Key_Right:
-			self.x += 5;
-			self.update()
+			if self.x + 5 + self.width<= self.geometry().width():
+				self.x += 5
 		elif e.key() == QtCore.Qt.Key_Up:
-			self.y -= 5;
-			self.update()
+			if self.y - 5 >= 0:
+				self.y -= 5
 		elif e.key() == QtCore.Qt.Key_Down:
-			self.y += 5;
-			self.update()
+			if self.y - 5 + self.height<= self.geometry().height():
+				self.y += 5
+
+		self.update()
 		self.f_setPosition(self.x, self.y)
 
 	def closeEvent(self, event):
