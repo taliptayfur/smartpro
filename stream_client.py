@@ -8,7 +8,7 @@ from PyQt4 import QtGui, QtCore, uic
 
 from stream_pos import ScreenPosWindow
 
-raspberry_ip = "192.168.223.88"
+raspberry_ip = "192.168.223.89"
 raspberry_port = "8080"
 raspberry_ip_page = "whatismyip3534"
 raspberry_control_page = raspberry_ip + ":" + raspberry_port + "/" + "control3434"
@@ -40,15 +40,7 @@ class TestApp(QtGui.QMainWindow, uiMainWindow):
 		self.screen_window = None
 		self.setupUi(self)
 
-		#self.ui.setStyleSheet("*{background-color:rgba(0,0,0,10)}")
-		#self.ui.actionExit.triggered.connect(self.close)
-
-		# self.ipSetting.setText( what_is_my_ip(raspberry_ip, raspberry_port, raspberry_ip_page) ) # get ip from web server runs on raspberry pi
-
-		#self.connect(self.ui.advancedButton, QtCore.SIGNAL("clicked()"), changeStackedWidget)
-		#self.connect(self.ui.start_button, QtCore.SIGNAL("clicked()"), start_stream)
-
-		#self.connect(self.ui.pos_set_button, QtCore.SIGNAL("clicked()"), self.inflateScreenPos)
+		self.ipSetting.setText( what_is_my_ip(raspberry_ip, raspberry_port, raspberry_ip_page) ) # get ip from web server runs on raspberry pi
 
 	@QtCore.pyqtSlot()
 	def on_pos_set_button_clicked(self):
@@ -137,8 +129,7 @@ def start_stream(_IP, _PORT, _MBIT, _RESOLUTION, _FPS, _BITRATE, _MAX_BITRATE, _
 		pop = None
 		values = {'comm': "opengstlaunch-stop"}
 		r = requests.get("http://" + raspberry_control_page, params= values)
-		
-
+	
 	# print _IP, _PORT, _MBIT, _RESOLUTION, _FPS, _BITRATE, _MAX_BITRATE
 
 if __name__ == "__main__":
