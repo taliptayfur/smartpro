@@ -8,7 +8,7 @@ from PyQt4 import QtGui, QtCore, uic
 
 from stream_pos import ScreenPosWindow
 
-raspberry_ip = "192.168.223.89"
+raspberry_ip = "192.168.42.1"
 raspberry_port = "8080"
 raspberry_ip_page = "whatismyip3534"
 raspberry_control_page = raspberry_ip + ":" + raspberry_port + "/" + "control3434"
@@ -26,8 +26,14 @@ def get_ip_address(ifname): # http://code.activestate.com/recipes/439094-get-the
 def what_is_my_ip(server_ip, server_port, server_page):
 	#values = {'comm': lauchAndPort}
 	#r = requests.get("http://" + raspberry_control_page, params= values)
-	r = requests.get("http://" + server_ip + ":" + server_port + "/" + server_page)
-	return str(r.content)
+	try:
+		r = requests.get("http://" + server_ip + ":" + server_port + "/" + server_page)
+		content = str(r.content)
+	except requests.exceptions.RequestException as e:
+		print "what_is_my_ip" + e
+		content = "0.0.0.0"
+
+	return content
 
 win = None
 commandList = []
@@ -39,7 +45,6 @@ class TestApp(QtGui.QMainWindow, uiMainWindow):
 		QtGui.QMainWindow.__init__(self)
 		self.screen_window = None
 		self.setupUi(self)
-
 		self.ipSetting.setText( what_is_my_ip(raspberry_ip, raspberry_port, raspberry_ip_page) ) # get ip from web server runs on raspberry pi
 
 	@QtCore.pyqtSlot()
@@ -90,7 +95,7 @@ class TestApp(QtGui.QMainWindow, uiMainWindow):
 		self.max_bitrate_edit.setText( str(int(int(mbit + "000") * (1.75))) )
 
 	def setPosition(self, x, y):
-		self.screen_pos.setText("%s,%s" % (x, y))
+		self.screen_pos.setText("%s,%s" % (x+1366, y))
 
 	def closeEvent(self, event):
 		print "TestApp.closeEvent"
